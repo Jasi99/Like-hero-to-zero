@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+<h:head>
+    <title>Like Hero To Zero – Startseite</title>
+    <h:outputStylesheet library="css" name="style.css" />
+</h:head>
+<h:body>
+
+    <!-- Logout-Bereich oben rechts -->
+    <h:panelGroup rendered="#{loginBean.loggedIn}" style="float: right; padding: 10px;">
+        <h:outputText value="Hallo #{loginBean.username}! " style="margin-right:10px;" />
+        <h:form style="display:inline;">
+            <h:commandButton value="Logout" action="#{loginBean.logout}" styleClass="styled-button secondary-button" />
+        </h:form>
+    </h:panelGroup>
+
+    <h1>Willkommen bei Like Hero To Zero</h1>
+
+    <p>Auf dieser Plattform können Sie sich über die weltweiten CO₂-Emissionen informieren. 
+       Sie haben die Möglichkeit, alle vorhandenen Emissionsdaten einzusehen oder als registrierte:r 
+       Wissenschaftler:in neue Daten einzutragen.</p>
+
+    <h:form>
+        <h:commandButton value="Alle CO2-Daten anzeigen" 
+                         action="emissionList.xhtml?faces-redirect=true" 
+                         styleClass="styled-button" />
+        <br/><br/>
+        <h:commandButton value="Neue Daten eintragen (Wissenschaftler)" 
+                         action="login.xhtml?faces-redirect=true" 
+                         styleClass="styled-button secondary-button" />
+    </h:form>
+
+</h:body>
+</html>

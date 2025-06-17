@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>CO2 Emissionen nach Land</title>
+    <h:outputStylesheet library="css" name="style.css" />
+</h:head>
+
+ <h:panelGroup rendered="#{loginBean.loggedIn}" style="float: right; padding: 10px;">
+        <h:outputText value="Hallo #{loginBean.username}! " style="margin-right:10px;" />
+        <h:form style="display:inline;">
+            <h:commandButton value="Logout" action="#{loginBean.logout}" styleClass="styled-button secondary-button" />
+        </h:form>
+    </h:panelGroup>
+
+<h:body>
+    <h:form>
+        <h1>CO2-Emissionen weltweit</h1>
+
+        <h:outputLabel value="Wähle ein Land:" />
+        <h:inputText value="#{emissionBean.selectedLand}" />
+
+        <h:commandButton value="Anzeigen"
+                         action="#{emissionBean.displayEmissions}"
+                         styleClass="styled-button" />
+
+        <!-- Ausgabe der Ergebnisse -->
+        <br/><br/>
+        <h:outputText value="#{emissionBean.result}" escape="false"
+                      rendered="#{not empty emissionBean.result}" />
+    </h:form>
+
+    <h:form>
+        <h:commandButton value="Zurück zur Startseite"
+                         action="home.xhtml?faces-redirect=true"
+                         styleClass="styled-button secondary-button" />
+    </h:form>
+</h:body>
+</html>
