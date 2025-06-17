@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>CO2-Emissionen anzeigen</title>
+    <h:outputStylesheet library="css" name="style.css" />
+</h:head>
+
+ <h:panelGroup rendered="#{loginBean.loggedIn}" style="float: right; padding: 10px;">
+        <h:outputText value="Hallo #{loginBean.username}! " style="margin-right:10px;" />
+        <h:form style="display:inline;">
+            <h:commandButton value="Logout" action="#{loginBean.logout}" styleClass="styled-button secondary-button" />
+        </h:form>
+    </h:panelGroup>
+
+<h:body>
+    <h1>CO2-Emissionen nach Land anzeigen</h1>
+
+    <!-- Eingabeformular zur Auswahl eines Landes -->
+    <h:form>
+        <h:outputLabel for="land" value="Land wählen:" />
+        <h:inputText id="land" value="#{emissionBean.selectedLand}" />
+        <h:commandButton value="Suchen"
+                         action="#{emissionBean.displayEmissions}"
+                         styleClass="styled-button" />
+    </h:form>
+
+    <!-- Ergebnistext -->
+    <h:outputText value="#{emissionBean.result}" rendered="#{not empty emissionBean.result}" />
+
+    <!-- Tabelle mit allen CO₂-Daten -->
+    <h:form rendered="#{not empty emissionBean.allEmissions}">
+        <h:dataTable value="#{emissionBean.allEmissions}" var="emission" border="1">
+
+            <h:column>
+                <f:facet name="header">Land</f:facet>
+                #{emission.land}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Jahr</f:facet>
+                #{emission.year}
+            </h:column>
+            <h:column>
+                <f:facet name="header">CO₂ (kt)</f:facet>
+                #{emission.co2}
+            </h:column>
+
+            <!-- Bearbeiten-Button nur für eingeloggte Wissenschaftler -->
+            <h:column rendered="#{loginBean.loggedIn and loginBean.role eq 'scientist'}">
+                <f:facet name="header">Aktion</f:facet>
+                <h:commandLink value="Bearbeiten" action="editEmission.xhtml">
+                    <f:param name="id" value="#{emission.id}" />
+                </h:commandLink>
+            </h:column>
+
+        </h:dataTable>
+    </h:form>
+
+    <!-- Hinweis wenn keine Daten gefunden -->
+    <h:outputText value="Keine Daten gefunden."
+                  rendered="#{empty emissionBean.allEmissions and not empty emissionBean.selectedLand}" />
+
+    <!-- Zurück-Button -->
+    <h:form>
+        <h:commandButton value="Zurück zur Startseite"
+                         action="home.xhtml?faces-redirect=true"
+                         styleClass="styled-button secondary-button" />
+    </h:form>
+</h:body>
+</html>
